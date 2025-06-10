@@ -1,5 +1,5 @@
 {
-  description = "A Nix-flake-based Go 1.24 + OCAML development environment";
+  description = "A Nix-flake-based Go 1.24 development environment";
 
   inputs = {
     # List of platform identifiers, e.g. "x86_64-linux" etc.
@@ -30,28 +30,21 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          python = pkgs.python312.withPackages (
-            ps: with ps; [
-              numpy
-              pandas
-              matplotlib
-              jupyterlab
-              ipykernel
-              scikit-learn
-              xgboost
-            ]
-          );
         in
         {
           default = pkgs.mkShell {
-            dontDetectOcamlConflicts = true;
-
             # packages placed on $PATH
             packages = with pkgs; [
-              # --- Python toolchain ---
-              python
+              # --- Go toolchain ---
+              go_1_24
+              gotools
+              golangci-lint
+              gopls
+              gomodifytags
+              gotests
+              godef
+
               sqlite
-              dotnetCorePackages.sdk_9_0
             ];
           };
         }
