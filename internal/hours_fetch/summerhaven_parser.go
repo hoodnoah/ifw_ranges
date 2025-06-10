@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -17,9 +18,11 @@ type SummerHavenParser struct {
 	dayOfWeekRegex     regexp.Regexp
 }
 
+var timeExtractRegex = regexp.MustCompile(`^(\d{1,2})(?::(\d{2}))?m$`)
+
 func NewSummerHavenParser() SummerHavenParser {
 	return SummerHavenParser{
-		scheduleLinesRegex: *regexp.MustCompile(`(?m)^.*\d+[ap]m\s*<br>`),
+		scheduleLinesRegex: *regexp.MustCompile(`(?m)^.*\d+[ap]m\s*.*<br>`),
 		dayOfWeekRegex:     *regexp.MustCompile(`(?m)^.*,`),
 	}
 }
@@ -64,7 +67,11 @@ func (s *SummerHavenParser) ExtractScheduleLines(pageBytes []byte) ([]string, er
 func cleanLine(line string) (CleanedLine, error) {
 	var normalizeHyphens = regexp.MustCompile(`\s*-\s*`)
 	line = strings.ReplaceAll(line, "<p>", "")
+	line = strings.ReplaceAll(line, "<ul>", "")
+	line = strings.ReplaceAll(line, "</ul>", "")
 	line = strings.ReplaceAll(line, "<br>", "")
+	line = strings.TrimSpace(line)
+	line = strings.Trim(line, "-")
 	line = strings.TrimSpace(line)
 	line = normalizeHyphens.ReplaceAllString(line, " - ")
 
@@ -82,6 +89,43 @@ func cleanLines(lines []string) ([]CleanedLine, error) {
 	}
 
 	return cleanLines, nil
+}
+
+func tryParseTime(timeStr string) (time.Time, error) {
+	cleaned := normalizeTime(timeStr)
+	layouts := []string{"3pm", "3:04pm"}
+
+	for _, layout := range layouts {
+		if t, err := time.Parse(layout, cleaned); err == nil {
+			return t, nil
+		}
+	}
+	return time.Time{}, fmt.Errorf("could not parse time %q", timeStr)
+}
+
+func normalizeTime(input string) string {
+	s := strings.ToLower(strings.TrimSpace(input))
+
+	// Fix common case: trailing "m" without "a/p"
+	if matches := timeExtractRegex.FindStringSubmatch(s); matches != nil {
+		hourStr := matches[1]
+		hour, _ := strconv.Atoi(hourStr)
+
+		// heuristic; assume AM only for 9, 10 or 11, PM otherwise
+		if hour >= 9 && hour <= 11 {
+			if matches[2] != "" {
+				return hourStr + ":" + matches[2] + "am"
+			}
+			return hourStr + "am"
+		} else {
+			if matches[2] != "" {
+				return hourStr + ":" + matches[2] + "pm"
+			}
+			return hourStr + "pm"
+		}
+	}
+
+	return s
 }
 
 func parseCleanedLine(cleanedLine CleanedLine) (*types.PartialRangeDayHours, error) {
@@ -106,14 +150,19 @@ func parseCleanedLine(cleanedLine CleanedLine) (*types.PartialRangeDayHours, err
 		return nil, fmt.Errorf("invalid date %q: %w", datePart, err)
 	}
 
-	start, err := time.Parse("3pm", startPart)
+	start, err := tryParseTime(startPart)
 	if err != nil {
 		return nil, fmt.Errorf("invalid start time %q: %w", startPart, err)
 	}
 
-	end, err := time.Parse("3pm", endPart)
+	end, err := tryParseTime(endPart)
 	if err != nil {
 		return nil, fmt.Errorf("invalid end time %q: %w", endPart, err)
+	}
+
+	// handle mistakenly swapped AM/PM suffixes
+	if start.After(end) {
+		start = start.Add(-12 * time.Hour)
 	}
 
 	return &types.PartialRangeDayHours{
