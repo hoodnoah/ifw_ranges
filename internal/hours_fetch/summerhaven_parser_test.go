@@ -9,18 +9,52 @@ import (
 	"github.com/hoodnoah/ifw_ranges/internal/types"
 )
 
-type MockTimeHelper struct{}
+const dataPath = "../../testdata/summerhaven.html"
 
-func (m *MockTimeHelper) GetCurrentTime() time.Time {
-	loc, _ := time.LoadLocation("America/New_York")
-	testTime := time.Date(2025, time.June, 9, 17, 22, 0, 0, loc)
-
-	return testTime
+func loadExampleValues() types.RangeHours {
+	return types.RangeHours{
+		Range: "Summerhaven",
+		Hours: []types.RangeDayHours{
+			types.NewRangeHours(2025, time.May, 28, 10, 13),
+			types.NewRangeHours(2025, time.May, 29, 10, 13),
+			types.NewRangeHours(2025, time.May, 30, 10, 13),
+			types.NewRangeHours(2025, time.May, 31, 10, 17),
+			types.NewRangeHours(2025, time.June, 2, 10, 17),
+			types.NewRangeHours(2025, time.June, 3, 10, 17),
+			types.NewRangeHours(2025, time.June, 4, 10, 17),
+			types.NewRangeHours(2025, time.June, 5, 10, 17),
+			types.NewRangeHours(2025, time.June, 6, 10, 17),
+			types.NewRangeHours(2025, time.June, 7, 10, 13),
+			types.NewRangeHours(2025, time.June, 8, 10, 17),
+			types.NewRangeHours(2025, time.June, 9, 10, 17),
+			types.NewRangeHours(2025, time.June, 10, 10, 17),
+			types.NewRangeHours(2025, time.June, 11, 10, 17),
+			types.NewRangeHours(2025, time.June, 12, 10, 13),
+			types.NewRangeHours(2025, time.June, 13, 10, 13),
+			types.NewRangeHours(2025, time.June, 14, 10, 17),
+			types.NewRangeHours(2025, time.June, 15, 10, 17),
+			types.NewRangeHours(2025, time.June, 16, 10, 13),
+			types.NewRangeHours(2025, time.June, 17, 10, 17),
+			types.NewRangeHours(2025, time.June, 18, 10, 17),
+			types.NewRangeHours(2025, time.June, 19, 10, 13),
+			types.NewRangeHours(2025, time.June, 20, 10, 13),
+			types.NewRangeHours(2025, time.June, 21, 10, 13),
+			types.NewRangeHours(2025, time.June, 22, 10, 13),
+			types.NewRangeHours(2025, time.June, 23, 10, 17),
+			types.NewRangeHours(2025, time.June, 24, 10, 17),
+			types.NewRangeHours(2025, time.June, 25, 10, 13),
+			types.NewRangeHours(2025, time.June, 26, 10, 17),
+			types.NewRangeHours(2025, time.June, 27, 10, 17),
+			types.NewRangeHours(2025, time.June, 28, 10, 17),
+			types.NewRangeHours(2025, time.June, 29, 10, 13),
+			types.NewRangeHours(2025, time.June, 30, 10, 13),
+		},
+	}
 }
 
 func TestSummerHavenParse(t *testing.T) {
 	// read test data file into bytes
-	testFile, err := os.ReadFile("../../testdata/summerhaven.html")
+	testFile, err := os.ReadFile(dataPath)
 
 	if err != nil {
 		t.Fatalf("failed to read the summerhaven test data %v", err)
@@ -52,8 +86,32 @@ func TestSummerHavenParse(t *testing.T) {
 		if !reflect.DeepEqual(expectedFirstDate, result.Hours[0]) {
 			t.Fatalf("expected to receive %v, received %v", expectedFirstDate, result.Hours[0])
 		}
-
 	})
+
+	t.Run("parses all examples correctly and in the correct order", func(t *testing.T) {
+		expected := loadExampleValues()
+		loc, _ := time.LoadLocation("America/New_York")
+		fetchTime := time.Date(2025, time.June, 9, 17, 14, 0, 0, loc)
+
+		file, err := os.ReadFile(dataPath)
+		if err != nil {
+			t.Fatalf("failed to load example file %v", err)
+		}
+
+		parser := NewSummerHavenParser()
+
+		actual, err := parser.ParseDatesFromHtml(file, fetchTime)
+		if err != nil {
+			t.Fatalf("expected parser not to error on well-formed example file %v", err)
+		}
+
+		for i, res := range actual.Hours {
+			if !reflect.DeepEqual(expected.Hours[i], res) {
+				t.Fatalf("expected the following to equal, but didn't: \n\n Expected: \n %v  \n\n Actual: \n %v", expected.Hours[i], res)
+			}
+		}
+	})
+
 }
 
 func TestCleanLine(t *testing.T) {

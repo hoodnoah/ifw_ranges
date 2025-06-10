@@ -15,6 +15,15 @@ type RangeDayHours struct {
 	EndTime   TimeOfDay
 }
 
+func NewRangeHours(year int, month time.Month, day, startHour, endHour int) RangeDayHours {
+	loc, _ := time.LoadLocation("America/New_York")
+	return RangeDayHours{
+		Date:      time.Date(year, month, day, 0, 0, 0, 0, loc),
+		StartTime: TimeOfDay{Hour: uint(startHour), Minute: 0},
+		EndTime:   TimeOfDay{Hour: uint(endHour), Minute: 0},
+	}
+}
+
 type RangeHours struct {
 	Range string
 	Hours []RangeDayHours
