@@ -12,7 +12,7 @@ func ListFileNames() []string {
 		"summerhaven_11_28_2023.html",
 		"summerhaven_06_23_2024.html",
 		"summerhaven_07_16_2024.html",
-		// "summerhaven_08_06_2024.html",
+		"summerhaven_08_06_2024.html",
 		// "summerhaven_09_24_2024.html",
 		// "summerhaven_01_13_2025.html",
 		// "summerhaven_01_28_2025.html",

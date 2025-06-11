@@ -519,6 +519,121 @@ func expectedFor(filename string) types.RangeHours {
 				},
 			},
 		}
+	case "summerhaven_08_06_2024.html":
+		return types.RangeHours{
+			Range: "Summerhaven",
+			Hours: []types.RangeDayHours{
+				{
+					Date:      time.Date(2024, time.July, 29, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.July, 30, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.July, 31, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 2, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 4, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 5, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 6, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 8, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 9, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 10, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 12, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 13, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 14, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 16, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 17, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 19, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 20, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 22, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 23, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 24, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 25, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 26, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 27, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 28, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 29, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				}, {
+					Date:      time.Date(2024, time.August, 30, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 13, Minute: 30},
+				}, {
+					Date:      time.Date(2024, time.August, 31, 0, 0, 0, 0, loc),
+					StartTime: types.TimeOfDay{Hour: 10, Minute: 0},
+					EndTime:   types.TimeOfDay{Hour: 17, Minute: 0},
+				},
+			},
+		}
 	default:
 		panic("no expected data for " + filename)
 	}
